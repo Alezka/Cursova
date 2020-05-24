@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.28, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: barbershop
+-- Host: 127.0.0.1    Database: barbershop2
 -- ------------------------------------------------------
 -- Server version	5.7.28-log
 
@@ -24,9 +24,10 @@ DROP TABLE IF EXISTS `customers`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `customers` (
   `id_customer` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `phone` int(11) NOT NULL,
-  PRIMARY KEY (`id_customer`)
+  `name` int(11) DEFAULT NULL,
+  `phone` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_customer`),
+  CONSTRAINT `customers_our_orders_id_order_fk` FOREIGN KEY (`id_customer`) REFERENCES `our_orders` (`id_order`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -36,7 +37,7 @@ CREATE TABLE `customers` (
 
 LOCK TABLES `customers` WRITE;
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
-INSERT INTO `customers` VALUES (1,'Alex Matrov',676450600),(2,'Oleh Pavliv',676450601),(3,'Oleksandr Manyavskiy',676450602),(4,'Andrian Kravchek',676450603),(5,'Taras Ryta',676450605),(6,'Nazar Tyk',676450606),(7,'Pavlo Pavlip',676450607),(8,'Roman Zozyla',676450608),(9,'Andrew Shevchenko',676450609),(10,'Andrew Yarmolenko',676450610),(11,'Andrew Pyatov',676450611),(12,'Evgeniy Konoplianka',676450612),(13,'Victor Tsegankov',676450613),(14,'Ryslan Malinovskiy',676450614),(15,'Roman Yaremchuk',676450615),(16,'Artem Kravets',676450616),(17,'Victor Kovalenlo',676450617),(18,'Taras Stepanenko',676450618),(19,'Igor Plastyn',676450619),(20,'Mykola Matvienko',676450620);
+INSERT INTO `customers` VALUES (1,NULL,676450600),(2,NULL,676450601),(3,NULL,676450602),(4,NULL,676450603),(5,NULL,676450605),(6,NULL,676450606),(7,NULL,676450607),(8,NULL,676450608),(9,NULL,676450609),(10,NULL,676450610),(11,NULL,676450611),(12,NULL,676450612),(13,NULL,676450613),(14,NULL,676450614),(15,NULL,676450615),(16,NULL,676450616),(17,NULL,676450617),(18,NULL,676450618),(19,NULL,676450619),(20,NULL,676450620);
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -48,11 +49,11 @@ DROP TABLE IF EXISTS `our_orders`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `our_orders` (
-  `id` int(11) NOT NULL,
-  `id_servises` int(11) NOT NULL,
-  `id_customer` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  CONSTRAINT `our_orders_customers_id_customer_fk` FOREIGN KEY (`id`) REFERENCES `customers` (`id_customer`)
+  `id_order` int(11) NOT NULL,
+  `id_servises` int(11) DEFAULT NULL,
+  `id_customer` int(11) DEFAULT NULL,
+  `id_worker` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_order`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -62,7 +63,7 @@ CREATE TABLE `our_orders` (
 
 LOCK TABLES `our_orders` WRITE;
 /*!40000 ALTER TABLE `our_orders` DISABLE KEYS */;
-INSERT INTO `our_orders` VALUES (1,2,10),(2,5,20),(3,1,1),(4,5,5),(5,9,18),(6,11,11),(7,14,15),(8,13,6),(9,10,9),(10,9,7),(11,13,3),(12,5,5),(13,6,15),(14,3,18),(15,8,19),(16,7,12),(17,6,14),(18,11,16),(19,2,2),(20,1,8);
+INSERT INTO `our_orders` VALUES (1,2,10,NULL),(2,5,20,NULL),(3,1,1,NULL),(4,5,5,NULL),(5,9,18,NULL),(6,11,11,NULL),(7,14,15,NULL),(8,13,6,NULL),(9,10,9,NULL),(10,9,7,NULL),(11,13,3,NULL),(12,5,5,NULL),(13,6,15,NULL),(14,3,18,NULL),(15,8,19,NULL),(16,7,12,NULL),(17,6,14,NULL),(18,11,16,NULL),(19,2,2,NULL),(20,1,8,NULL);
 /*!40000 ALTER TABLE `our_orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -75,10 +76,9 @@ DROP TABLE IF EXISTS `salary`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `salary` (
   `id_worker` int(11) NOT NULL,
-  `size_salary` int(11) NOT NULL,
-  PRIMARY KEY (`id_worker`),
-  CONSTRAINT `salary_ibfk_1` FOREIGN KEY (`id_worker`) REFERENCES `workers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `size_salary` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_worker`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,13 +99,14 @@ DROP TABLE IF EXISTS `services`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `services` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `prise` int(3) NOT NULL,
-  `discont` tinyint(1) NOT NULL,
-  `photo_services` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+  `id_service` int(11) NOT NULL,
+  `name` tinytext,
+  `prise` int(11) DEFAULT NULL,
+  `discont` tinyint(4) DEFAULT NULL,
+  `photo_services` tinytext,
+  PRIMARY KEY (`id_service`),
+  CONSTRAINT `services_our_orders_id_order_fk` FOREIGN KEY (`id_service`) REFERENCES `our_orders` (`id_order`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -126,13 +127,14 @@ DROP TABLE IF EXISTS `workers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `workers` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `specialization` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `photo` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+  `id_worker` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `specialization` varchar(255) DEFAULT NULL,
+  `photo` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_worker`),
+  CONSTRAINT `workers_our_orders_id_order_fk` FOREIGN KEY (`id_worker`) REFERENCES `our_orders` (`id_order`),
+  CONSTRAINT `workers_salary_id_worker_fk` FOREIGN KEY (`id_worker`) REFERENCES `salary` (`id_worker`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -154,4 +156,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-20 23:52:22
+-- Dump completed on 2020-05-24 18:08:36
