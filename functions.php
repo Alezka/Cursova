@@ -26,7 +26,7 @@ function getWorkers($limit)
 {
     global $mysqli;
     connectDB();
-    $result = $mysqli->query("SELECT * FROM  `workers` ORDER BY `id` ASC LIMIT $limit");
+    $result = $mysqli->query("SELECT * FROM  `workers` ORDER BY `id_worker` ASC LIMIT $limit");
     closeDB();
     return resultToArray($result);
 }
@@ -41,7 +41,7 @@ function resultToArray($result)
 
 
 if (!empty($_POST['name ']) and !empty($_POST['email']) and !empty(($_POST['phone ']))) {
-    $headers = "From: Barbershop";
+    $headers = 'From: Barbershop';
     $letter = " data of mail:\r\n";
     $letter = " Name:" . $_POST['name'] . "\r\n";
     $letter = " Name:" . $_POST['surname'] . "\r\n";

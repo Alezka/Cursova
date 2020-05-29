@@ -225,7 +225,7 @@
                     Make an Apointment
                 </button>
                 <button class="col-3  d-inline-block btn btn-brown text-16 font-weight-400 px-4 py-3 ">
-                    <a href="allService.php" class="text-decoration-none color text-black font-weight-700">More
+                    <a href="allService.php"  class="text-decoration-none color text-black font-weight-700">More
                         services</a></button>
             </div>
         </div>
